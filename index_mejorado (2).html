@@ -269,40 +269,33 @@
 <body class="bg-gray-100 text-slate-800 font-sans min-h-screen flex flex-col antialiased">
 
     <!-- Navbar Global -->
-    <nav class="bg-slate-900 text-white p-3 sm:p-4 shadow-md flex justify-between items-center z-10 sticky top-0">
-        <div class="flex items-center gap-2">
+    <nav class="bg-slate-900 text-white p-2 sm:p-4 shadow-md flex justify-between items-center z-10 sticky top-0 w-full overflow-hidden">
+        <div class="flex items-center gap-2 flex-shrink-0">
             <i class="fa-solid fa-laptop-medical text-lg sm:text-xl text-blue-400"></i>
-            <h1 class="text-base sm:text-xl font-bold tracking-wide hidden sm:inline">PETULAP</h1>
+            <h1 class="text-base sm:text-xl font-bold tracking-wide hidden md:inline">PETULAP</h1>
         </div>
         
-        <div class="flex items-center gap-3 sm:gap-6">
-            <!-- Reloj Digital -->
-            <div class="flex items-center gap-2 bg-slate-800 px-3 sm:px-4 py-2 rounded-lg border border-green-500/30">
-                <i class="fa-solid fa-clock text-green-400 text-sm"></i>
-                <span id="digital-clock" class="text-base sm:text-lg tracking-widest">--:--</span>
+        <div class="flex items-center gap-1.5 sm:gap-4 overflow-x-auto no-scrollbar flex-shrink max-w-full pl-1">
+            <div class="flex items-center gap-1 sm:gap-2 bg-slate-800 px-2 sm:px-4 py-1.5 sm:py-2 rounded-lg border border-green-500/30 flex-shrink-0">
+                <i class="fa-solid fa-clock text-green-400 text-xs sm:text-sm"></i>
+                <span id="digital-clock" class="text-sm sm:text-lg tracking-widest">--:--</span>
             </div>
             
-            <!-- Botón LOTES (para técnico/admin) -->
-            <button id="btn-nav-lotes" onclick="app.abrirMenuLotes()" class="hidden-view text-orange-400 hover:text-orange-300 transition text-lg p-2 sm:p-0 group relative" title="Gestión de Lotes">
+            <button id="btn-nav-lotes" onclick="app.abrirMenuLotes()" class="hidden-view text-orange-400 hover:text-orange-300 transition text-base sm:text-lg p-1.5 sm:p-0 group relative flex-shrink-0" title="Gestión de Lotes">
                 <i class="fa-solid fa-cube group-hover:scale-110 transition"></i>
-                <div class="hidden group-hover:flex absolute right-0 mt-2 bg-slate-700 text-xs text-white px-2 py-1 rounded whitespace-nowrap shadow-lg">Lotes</div>
             </button>
 
-            <!-- Botón SELECTOR DE TEMAS (Rápido) -->
-            <button id="btn-nav-tema" onclick="document.getElementById('modal-selector-temas').classList.remove('hidden-view'); SoundFx.click();" class="text-purple-400 hover:text-purple-300 transition text-lg p-2 sm:p-0 group relative" title="Cambiar Tema">
+            <button id="btn-nav-tema" onclick="document.getElementById('modal-selector-temas').classList.remove('hidden-view'); SoundFx.click();" class="text-purple-400 hover:text-purple-300 transition text-base sm:text-lg p-1.5 sm:p-0 group relative flex-shrink-0" title="Cambiar Tema">
                 <i class="fa-solid fa-palette group-hover:scale-110 transition"></i>
-                <div class="hidden group-hover:flex absolute right-0 mt-2 bg-slate-700 text-xs text-white px-2 py-1 rounded whitespace-nowrap shadow-lg">Temas</div>
             </button>
             
-            <!-- Botón de Configuración -->
-            <button onclick="document.getElementById('modal-settings').classList.remove('hidden-view'); SoundFx.click();" class="text-gray-400 hover:text-white transition text-lg p-2 sm:p-0 group relative" title="Configuración">
+            <button onclick="document.getElementById('modal-settings').classList.remove('hidden-view'); SoundFx.click();" class="text-gray-400 hover:text-white transition text-base sm:text-lg p-1.5 sm:p-0 group relative flex-shrink-0" title="Configuración">
                 <i class="fa-solid fa-sliders-h group-hover:scale-110 transition"></i>
-                <div class="hidden group-hover:flex absolute right-0 mt-2 bg-slate-700 text-xs text-white px-2 py-1 rounded whitespace-nowrap shadow-lg">Configuración</div>
             </button>
             
-            <div id="nav-user-info" class="hidden-view flex items-center gap-2 sm:gap-4">
-                <span id="user-display" class="font-medium text-xs sm:text-base bg-slate-800 px-2 sm:px-3 py-1 rounded-full truncate"></span>
-                <button onclick="app.logout()" class="text-red-400 hover:text-red-300 transition text-lg p-2 sm:p-0" title="Cerrar sesión">
+            <div id="nav-user-info" class="hidden-view flex items-center gap-1 sm:gap-4 flex-shrink-0">
+                <span id="user-display" class="font-medium text-[10px] sm:text-base bg-slate-800 px-2 sm:px-3 py-1.5 rounded-full truncate max-w-[70px] sm:max-w-[150px] inline-block align-middle"></span>
+                <button onclick="app.logout()" class="text-red-400 hover:text-red-300 transition text-base sm:text-lg p-1.5 sm:p-0" title="Cerrar sesión">
                     <i class="fa-solid fa-right-from-bracket"></i>
                 </button>
             </div>
@@ -758,11 +751,15 @@
 
         <!-- MODAL: CONFIGURACIÓN / PERSONALIZACIÓN -->
         <div id="modal-settings" class="fixed inset-0 bg-black/60 z-50 hidden-view flex items-center justify-center p-4">
-            <div class="bg-white rounded-2xl sm:rounded-3xl shadow-2xl p-6 sm:p-8 max-w-md w-full border-t-4 sm:border-t-8 border-purple-600">
+            <div class="bg-white rounded-2xl sm:rounded-3xl shadow-2xl p-6 sm:p-8 max-w-md w-full max-h-[90vh] overflow-y-auto border-t-4 sm:border-t-8 border-purple-600 relative">
+                
+                <button onclick="document.getElementById('modal-settings').classList.add('hidden-view'); SoundFx.click();" class="absolute top-4 right-4 text-gray-400 hover:text-gray-700 transition w-8 h-8 flex items-center justify-center bg-gray-100 rounded-full hover:bg-gray-200">
+                    <i class="fa-solid fa-times text-xl"></i>
+                </button>
+
                 <h3 class="text-xl sm:text-2xl font-black text-purple-600 mb-4 sm:mb-6 pb-2 uppercase tracking-widest"><i class="fa-solid fa-sliders-h"></i> Configuración</h3>
                 
                 <div class="space-y-4 sm:space-y-5">
-                    <!-- Modo Minimalista -->
                     <div class="bg-purple-50 p-4 rounded-xl border-2 border-purple-200">
                         <label class="flex items-center gap-3 cursor-pointer">
                             <input type="checkbox" id="toggle-minimalist" onchange="app.toggleMinimalistMode()" class="w-5 h-5 text-purple-600 rounded focus:ring-purple-500">
@@ -773,7 +770,6 @@
                         </label>
                     </div>
                     
-                    <!-- Fondo de Pantalla -->
                     <div>
                         <label class="block text-xs font-black text-gray-500 mb-2 uppercase tracking-wider"><i class="fa-solid fa-image"></i> Fondo de Pantalla:</label>
                         <div class="grid grid-cols-2 gap-2">
@@ -789,13 +785,17 @@
                             <button onclick="app.cambiarFondo('blue')" class="bg-blue-500 text-white border-2 border-blue-700 p-3 rounded-lg font-black text-xs uppercase tracking-widest transition">
                                 <i class="fa-solid fa-fill-drip mb-1"></i><br>Azul
                             </button>
-                            <button onclick="app.cambiarFondo('purple')" class="bg-purple-600 text-white border-2 border-purple-800 p-3 rounded-lg font-black text-xs uppercase tracking-widest transition col-span-2">
-                                <i class="fa-solid fa-fill-drip mb-1"></i> Morado
+                            <button onclick="app.cambiarFondo('purple')" class="bg-purple-600 text-white border-2 border-purple-800 p-3 rounded-lg font-black text-xs uppercase tracking-widest transition">
+                                <i class="fa-solid fa-fill-drip mb-1"></i><br>Morado
                             </button>
+                            
+                            <button onclick="document.getElementById('bg-image-upload').click()" class="bg-indigo-100 hover:bg-indigo-200 text-indigo-700 border-2 border-indigo-300 hover:border-indigo-500 p-3 rounded-lg font-black text-xs uppercase tracking-widest transition col-span-2 flex justify-center items-center gap-2">
+                                <i class="fa-solid fa-upload"></i> Subir Imagen
+                            </button>
+                            <input type="file" id="bg-image-upload" accept="image/*" class="hidden" onchange="app.subirFondoImagen(event)">
                         </div>
                     </div>
                     
-                    <!-- Volumen de Audio -->
                     <div>
                         <label class="block text-xs font-black text-gray-500 mb-2 uppercase tracking-wider"><i class="fa-solid fa-volume-high"></i> Volumen de Audio:</label>
                         <div class="flex items-center gap-3">
@@ -806,7 +806,7 @@
                 </div>
                 
                 <div class="mt-6 sm:mt-8">
-                    <button onclick="document.getElementById('modal-settings').classList.add('hidden-view'); SoundFx.click();" class="w-full bg-purple-600 hover:bg-purple-700 text-white font-black py-3 sm:py-4 rounded-lg sm:rounded-xl transition uppercase tracking-widest text-xs sm:text-base border-b-4 border-purple-800 active:border-b-0 active:translate-y-1">Cerrar</button>
+                    <button onclick="document.getElementById('modal-settings').classList.add('hidden-view'); SoundFx.click();" class="w-full bg-purple-600 hover:bg-purple-700 text-white font-black py-3 sm:py-4 rounded-lg sm:rounded-xl transition uppercase tracking-widest text-xs sm:text-base border-b-4 border-purple-800 active:border-b-0 active:translate-y-1">Cerrar Abajo</button>
                 </div>
             </div>
         </div>
