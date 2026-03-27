@@ -2470,6 +2470,9 @@
             // ==========================================
             // PERSONALIZACIÓN
             // ==========================================
+           // ==========================================
+            // PERSONALIZACIÓN
+            // ==========================================
             toggleMinimalistMode: function() {
                 const toggle = document.getElementById('toggle-minimalist');
                 if (toggle.checked) {
@@ -2485,7 +2488,45 @@
                 }
             },
 
+            // 1. NUEVA FUNCIÓN: Procesa y guarda la imagen en base64
+            subirFondoImagen: function(event) {
+                const file = event.target.files[0];
+                if (!file) return;
+                
+                // Evitar imágenes muy pesadas (máx 2MB para LocalStorage)
+                if(file.size > 2 * 1024 * 1024) {
+                    return this.toast('La imagen es muy pesada (Max 2MB)', 'error');
+                }
+
+                const reader = new FileReader();
+                reader.onload = (e) => {
+                    const base64Str = e.target.result;
+                    
+                    // Limpiar fondos de Tailwind
+                    document.body.className = document.body.className.replace(/bg-(normal|pattern-dots|pattern-grid|gradient-blue|gradient-purple)/g, '');
+                    localStorage.removeItem('petulap_background');
+                    
+                    // Aplicar imagen de fondo
+                    document.body.style.backgroundImage = `url(${base64Str})`;
+                    document.body.style.backgroundSize = 'cover';
+                    document.body.style.backgroundPosition = 'center';
+                    document.body.style.backgroundAttachment = 'fixed';
+                    
+                    // Guardar
+                    localStorage.setItem('petulap_bg_image', base64Str);
+                    
+                    SoundFx.finish();
+                    this.toast('Fondo de imagen guardado', 'success');
+                };
+                reader.readAsDataURL(file);
+            },
+
+            // 2. MODIFICADA: Si elige un color normal, limpiar la imagen
             cambiarFondo: function(tipo) {
+                // Quitar la imagen si existía
+                document.body.style.backgroundImage = '';
+                localStorage.removeItem('petulap_bg_image');
+
                 document.body.className = document.body.className.replace(/bg-(normal|pattern-dots|pattern-grid|gradient-blue|gradient-purple)/g, '');
                 
                 if (tipo === 'normal') {
@@ -2515,6 +2556,7 @@
                 SoundFx.click();
             },
 
+            // 3. MODIFICADA: Cargar imagen al iniciar sesión / refrescar
             cargarPersonalizacion: function() {
                 const minimalist = localStorage.getItem('petulap_minimalist');
                 if (minimalist === 'true') {
@@ -2523,12 +2565,22 @@
                     if (toggle) toggle.checked = true;
                 }
                 
-                const background = localStorage.getItem('petulap_background');
-                if (background && background !== 'normal') {
-                    if (background === 'dots') document.body.classList.add('bg-pattern-dots');
-                    else if (background === 'grid') document.body.classList.add('bg-pattern-grid');
-                    else if (background === 'blue') document.body.classList.add('bg-gradient-blue');
-                    else if (background === 'purple') document.body.classList.add('bg-gradient-purple');
+                // Prioridad 1: Imagen personalizada
+                const customBgImage = localStorage.getItem('petulap_bg_image');
+                if (customBgImage) {
+                    document.body.style.backgroundImage = `url(${customBgImage})`;
+                    document.body.style.backgroundSize = 'cover';
+                    document.body.style.backgroundPosition = 'center';
+                    document.body.style.backgroundAttachment = 'fixed';
+                } else {
+                    // Prioridad 2: Fondos CSS predefinidos
+                    const background = localStorage.getItem('petulap_background');
+                    if (background && background !== 'normal') {
+                        if (background === 'dots') document.body.classList.add('bg-pattern-dots');
+                        else if (background === 'grid') document.body.classList.add('bg-pattern-grid');
+                        else if (background === 'blue') document.body.classList.add('bg-gradient-blue');
+                        else if (background === 'purple') document.body.classList.add('bg-gradient-purple');
+                    }
                 }
                 
                 const audioVolume = localStorage.getItem('petulap_audio_volume');
@@ -2541,7 +2593,6 @@
                     }
                 }
 
-                // Cargar tema guardado
                 this.cargarTemaGuardado();
             },
 
