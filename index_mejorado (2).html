@@ -2050,15 +2050,20 @@
 
                 const grid = document.getElementById('admin-grid-tecnicos');
                 const detalles = document.getElementById('admin-detalles-container');
-                grid.innerHTML = '<div class="col-span-full text-center py-6 sm:py-8"><i class="fa-solid fa-circle-notch fa-spin text-blue-500 text-3xl sm:text-4xl"></i></div>';
-                detalles.innerHTML = ''; 
+                
+                // Si la grilla está vacía (primera carga), mostramos el spinner.
+                const esCargaInicial = grid.childElementCount === 0;
+                if (esCargaInicial) {
+                    grid.innerHTML = '<div class="col-span-full text-center py-6 sm:py-8"><i class="fa-solid fa-circle-notch fa-spin text-blue-500 text-3xl sm:text-4xl"></i></div>';
+                }
 
                 try {
                     const { data, error } = await supabaseClient.from('registros_petulap')
                         .select('*').gte('fecha_hora', startOfDay).lte('fecha_hora', endOfDay).order('fecha_hora', { ascending: false });
 
                     if (error) throw error;
-                    grid.innerHTML = '';
+                    
+                    if (esCargaInicial) grid.innerHTML = ''; // Solo limpiamos si estaba el spinner
                     
                     TECNICOS.forEach(tecnico => {
                         const registrosTec = data.filter(r => r.tecnico === tecnico);
@@ -2100,9 +2105,11 @@
                             }
                         }
 
-                        const card = document.createElement('div');
-                        card.className = `border-2 rounded-lg sm:rounded-3xl p-3 sm:p-5 shadow-lg transition transform hover:-translate-y-1 ${estadoVisual.color} flex flex-col`;
-                        card.innerHTML = `
+                        // ID seguro sin espacios
+                        const safeTecnicoID = tecnico.replace(/\s+/g, '-');
+                        let card = document.getElementById(`card-tec-${safeTecnicoID}`);
+                        
+                        const cardInnerHTML = `
                             <div class="flex justify-between items-center mb-2 sm:mb-3 gap-1">
                                 <h3 class="font-black text-xs sm:text-lg text-gray-800 uppercase tracking-widest"><i class="fa-solid fa-user-circle mr-1 text-blue-600 text-sm sm:text-base"></i>${tecnico}</h3>
                                 <span class="px-1.5 sm:px-2 py-0.5 sm:py-1 rounded text-[9px] sm:text-[10px] font-black uppercase ${estadoVisual.text} tracking-widest shadow-sm flex-shrink-0"><i class="fa-solid ${estadoVisual.icon} mr-0.5 text-[8px]"></i> ${estadoVisual.label}</span>
@@ -2114,21 +2121,40 @@
                                 ${adminActions || ''}
                             </div>
                             <button onclick="app.toggleDetallesAdmin('${tecnico}')" class="w-full bg-slate-800 hover:bg-slate-900 text-white text-xs sm:text-sm font-black py-2 sm:py-3 rounded-lg sm:rounded-xl border-b-2 sm:border-b-4 border-black active:border-b-0 active:translate-y-1 transition shadow-lg uppercase tracking-widest">Bitácora <i class="fa-solid fa-caret-down ml-1"></i></button>`;
-                        grid.appendChild(card);
+                            
+                        // ACTUALIZACIÓN EN CALIENTE
+                        if (!card) {
+                            card = document.createElement('div');
+                            card.id = `card-tec-${safeTecnicoID}`;
+                            card.className = `border-2 rounded-lg sm:rounded-3xl p-3 sm:p-5 shadow-lg transition transform hover:-translate-y-1 ${estadoVisual.color} flex flex-col`;
+                            card.innerHTML = cardInnerHTML;
+                            grid.appendChild(card);
+                        } else {
+                            card.className = `border-2 rounded-lg sm:rounded-3xl p-3 sm:p-5 shadow-lg transition transform hover:-translate-y-1 ${estadoVisual.color} flex flex-col`;
+                            card.innerHTML = cardInnerHTML;
+                        }
+
                         this.construirTablaDetalles(tecnico, trueHistory, detalles);
                     });
 
                     this.cargarRadarAdmin();
                 } catch (e) { 
                     console.error("Error en Dashboard Admin:", e);
-                    grid.innerHTML = `<div class="col-span-full text-center text-red-500 py-6 sm:py-8 font-bold text-xs"><i class="fa-solid fa-bug text-2xl sm:text-3xl mb-2"></i><br>Error: ${e.message || 'Fallo de BD'}</div>`; 
+                    if (esCargaInicial) grid.innerHTML = `<div class="col-span-full text-center text-red-500 py-6 sm:py-8 font-bold text-xs"><i class="fa-solid fa-bug text-2xl sm:text-3xl mb-2"></i><br>Error: ${e.message || 'Fallo de BD'}</div>`; 
                 }
             },
-
             construirTablaDetalles: function(tecnico, registros, container) {
-                const wrapper = document.createElement('div');
-                wrapper.id = `admin-tabla-${tecnico}`;
-                wrapper.className = 'hidden-view bg-white rounded-2xl sm:rounded-3xl shadow-xl p-4 sm:p-6 border-l-4 sm:border-l-8 border-blue-600 mb-3 sm:mb-4';
+                const safeTecnico = tecnico.replace(/\s+/g, '-');
+                let wrapper = document.getElementById(`admin-tabla-${safeTecnico}`);
+                let isNew = false;
+                
+                if (!wrapper) {
+                    wrapper = document.createElement('div');
+                    wrapper.id = `admin-tabla-${safeTecnico}`;
+                    // Al crearlo por primera vez, viene oculto (hidden-view)
+                    wrapper.className = 'hidden-view bg-white rounded-2xl sm:rounded-3xl shadow-xl p-4 sm:p-6 border-l-4 sm:border-l-8 border-blue-600 mb-3 sm:mb-4';
+                    isNew = true;
+                }
                 
                 const chronRegistros = [...registros].reverse(); 
                 const sesiones = []; let sesionActual = null;
@@ -2185,15 +2211,31 @@
                     <div class="overflow-x-auto rounded-lg sm:rounded-xl border-2 border-gray-200"><table class="w-full text-left border-collapse text-[9px] sm:text-base"><thead>
                         <tr class="bg-slate-800 text-white uppercase tracking-widest text-[8px] sm:text-xs"><th class="p-2 sm:p-4 rounded-tl text-center">Horario</th><th class="p-2 sm:p-4">Actividad</th><th class="p-2 sm:p-4">Eventos</th><th class="p-2 sm:p-4 text-center">Resultados</th></tr>
                     </thead><tbody class="divide-y divide-gray-200 bg-white">${tbodyHtml}</tbody></table></div>`;
-                container.appendChild(wrapper);
+                
+                if (isNew) {
+                    container.appendChild(wrapper);
+                }
             },
-
             toggleDetallesAdmin: function(tecnico) {
-                TECNICOS.forEach(t => { if (t !== tecnico) { const el = document.getElementById(`admin-tabla-${t}`); if(el) el.classList.add('hidden-view'); } });
-                const tabla = document.getElementById(`admin-tabla-${tecnico}`);
+                const safeTarget = tecnico.replace(/\s+/g, '-');
+                TECNICOS.forEach(t => { 
+                    const safeT = t.replace(/\s+/g, '-');
+                    if (safeT !== safeTarget) { 
+                        const el = document.getElementById(`admin-tabla-${safeT}`); 
+                        if(el) el.classList.add('hidden-view'); 
+                    } 
+                });
+                const tabla = document.getElementById(`admin-tabla-${safeTarget}`);
                 if (tabla) {
-                    if (tabla.classList.contains('hidden-view')) { tabla.classList.remove('hidden-view'); tabla.classList.add('slide-down'); setTimeout(() => tabla.scrollIntoView({ behavior: 'smooth', block: 'start' }), 100); } 
-                    else { tabla.classList.add('hidden-view'); tabla.classList.remove('slide-down'); }
+                    if (tabla.classList.contains('hidden-view')) { 
+                        tabla.classList.remove('hidden-view'); 
+                        tabla.classList.add('slide-down'); 
+                        setTimeout(() => tabla.scrollIntoView({ behavior: 'smooth', block: 'start' }), 100); 
+                    } 
+                    else { 
+                        tabla.classList.add('hidden-view'); 
+                        tabla.classList.remove('slide-down'); 
+                    }
                 }
             },
 
