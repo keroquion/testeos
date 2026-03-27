@@ -638,12 +638,30 @@
             <div id="admin-grid-tecnicos" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 mb-4 sm:mb-6"></div>
 
             <!-- RADAR GLOBAL ADMIN -->
-            <div class="bg-white rounded-2xl sm:rounded-3xl shadow-xl p-4 sm:p-6 border-t-4 border-purple-500 mb-4 sm:mb-6">
-                <div class="flex justify-between items-center mb-3 sm:mb-4 border-b-2 border-gray-100 pb-2">
-                    <h3 class="text-base sm:text-lg font-black text-gray-800 uppercase tracking-widest text-xs"><i class="fa-solid fa-globe text-purple-500 mr-2"></i> Radar Global de Actividades</h3>
+           <details class="bg-white rounded-2xl sm:rounded-3xl shadow-xl border-t-4 border-purple-500 mb-4 sm:mb-6 transition-all duration-300 group" id="accordion-radar-global" ontoggle="localStorage.setItem('petulap_radar_global_open', this.open)">
+                <summary class="font-black text-slate-800 p-4 sm:p-6 cursor-pointer uppercase flex items-center justify-between outline-none text-base sm:text-lg hover:bg-slate-50 rounded-t-2xl sm:rounded-t-3xl transition list-none [&::-webkit-details-marker]:hidden border-b-2 border-gray-100">
+                    <div class="flex items-center gap-2 text-xs sm:text-base">
+                        <i class="fa-solid fa-globe text-purple-500 group-open:text-purple-700 transition-colors"></i> 
+                        <span class="tracking-widest">Radar Global de Actividades</span>
+                    </div>
+                    <i class="fa-solid fa-chevron-down text-gray-400 group-open:rotate-180 transition-transform duration-300 inline-block"></i>
+                </summary>
+                
+                <div class="px-4 sm:px-6 pb-4 sm:px-6 pt-2">
+                    <div id="admin-radar-global" class="space-y-2 sm:space-y-3 max-h-96 overflow-y-auto pr-2 mb-4"></div>
+                    
+                    <button onclick="document.getElementById('accordion-radar-global').open = false; SoundFx.click();" class="w-full bg-slate-100 hover:bg-slate-200 text-slate-600 font-bold py-2 sm:py-3 rounded-xl text-xs sm:text-sm transition flex justify-center items-center gap-2 border-2 border-slate-200 active:translate-y-1">
+                        <i class="fa-solid fa-angle-up"></i> CERRAR PANEL
+                    </button>
                 </div>
-                <div id="admin-radar-global" class="space-y-2 sm:space-y-3 max-h-96 overflow-y-auto pr-2"></div>
-            </div>
+            </details>
+            
+            <script>
+                if(localStorage.getItem('petulap_radar_global_open') === 'true') {
+                    const radarAcc = document.getElementById('accordion-radar-global');
+                    if(radarAcc) radarAcc.open = true;
+                }
+            </script>
 
             <div id="admin-detalles-container" class="space-y-3 sm:space-y-4 mb-6 sm:mb-8"></div>
         </div>
