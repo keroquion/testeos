@@ -490,14 +490,22 @@
 
             <!-- ACTIVIDADES GENERALES -->
             <details class="bg-white rounded-2xl sm:rounded-3xl shadow-md border-t-4 border-slate-700 mb-4 sm:mb-6 transition-all duration-300 group" id="accordion-admin-tasks">
-                <summary class="font-black text-slate-800 p-3 sm:p-5 cursor-pointer uppercase flex items-center justify-between outline-none text-sm sm:text-base">
+                <summary class="font-black text-slate-800 p-3 sm:p-5 cursor-pointer uppercase flex items-center justify-between outline-none text-sm sm:text-base hover:bg-slate-50 rounded-t-2xl sm:rounded-t-3xl transition">
                     <div class="flex items-center gap-2">
                         <i class="fa-solid fa-list-check text-slate-500 group-open:text-blue-600 transition-colors"></i> 
                         <span>Actividades Generales</span>
+                        <i class="fa-solid fa-chevron-down text-gray-400 group-open:rotate-180 transition-transform duration-300 ml-1 sm:ml-2"></i>
                     </div>
                     <span class="bg-slate-200 text-slate-700 px-2 sm:px-3 py-0.5 sm:py-1 rounded-full text-xs" id="badge-admin-tasks">0</span>
                 </summary>
-                <div class="px-3 sm:px-5 pb-3 sm:pb-5 space-y-2 sm:space-y-3" id="tec-lista-admin-tasks">
+                
+                <div class="px-3 sm:px-5 pb-3 sm:pb-5">
+                    <div class="space-y-2 sm:space-y-3 mb-4" id="tec-lista-admin-tasks">
+                        </div>
+                    
+                    <button onclick="document.getElementById('accordion-admin-tasks').removeAttribute('open'); SoundFx.click();" class="w-full bg-slate-100 hover:bg-slate-200 text-slate-600 font-bold py-2 sm:py-3 rounded-xl text-xs sm:text-sm transition flex justify-center items-center gap-2 border-2 border-slate-200 active:translate-y-1">
+                        <i class="fa-solid fa-angle-up"></i> CERRAR PANEL
+                    </button>
                 </div>
             </details>
 
@@ -925,33 +933,34 @@
         </div>
 
         <!-- ============================================ MODAL: SELECTOR DE TEMAS ============================================ -->
-        <div id="modal-selector-temas" class="fixed inset-0 bg-black/70 z-50 hidden-view flex items-center justify-center p-4">
-            <div class="bg-white rounded-3xl shadow-2xl p-6 sm:p-8 max-w-lg w-full">
-                <h3 class="text-2xl sm:text-3xl font-black text-purple-600 mb-6 uppercase tracking-widest"><i class="fa-solid fa-palette"></i> Selecciona tu Tema</h3>
+     <div id="modal-selector-temas" class="fixed inset-0 bg-black/70 z-50 hidden-view flex items-center justify-center p-4">
+            <div class="bg-white rounded-3xl shadow-2xl p-6 sm:p-8 max-w-lg w-full max-h-[90vh] overflow-y-auto relative">
+                
+                <button onclick="document.getElementById('modal-selector-temas').classList.add('hidden-view'); SoundFx.click();" class="absolute top-4 right-4 text-gray-400 hover:text-gray-700 transition w-8 h-8 flex items-center justify-center bg-gray-100 rounded-full hover:bg-gray-200 z-10">
+                    <i class="fa-solid fa-times text-xl"></i>
+                </button>
+
+                <h3 class="text-2xl sm:text-3xl font-black text-purple-600 mb-6 pr-6 uppercase tracking-widest"><i class="fa-solid fa-palette"></i> Selecciona tu Tema</h3>
                 
                 <div class="space-y-3 mb-6">
-                    <!-- TEMA NORMAL -->
                     <button onclick="app.cambiarTema('normal')" class="w-full bg-gradient-to-r from-blue-50 to-slate-50 hover:from-blue-100 hover:to-slate-100 border-3 border-blue-400 rounded-xl p-4 sm:p-5 transition transform hover:scale-105 text-left shadow-md">
                         <p class="font-black text-lg text-blue-700 uppercase tracking-widest"><i class="fa-solid fa-sun"></i> NORMAL</p>
                         <p class="text-xs text-blue-600 font-bold mt-1">Interfaz estándar, colores vivos y animaciones</p>
                         <p class="text-xs text-blue-500 mt-2 italic">Para todos - diseño balance</p>
                     </button>
 
-                    <!-- TEMA DARK MODE -->
                     <button onclick="app.cambiarTema('dark')" class="w-full bg-gradient-to-r from-slate-800 to-slate-900 hover:from-slate-700 hover:to-slate-800 border-3 border-indigo-500 rounded-xl p-4 sm:p-5 transition transform hover:scale-105 text-left shadow-md">
                         <p class="font-black text-lg text-indigo-300 uppercase tracking-widest"><i class="fa-solid fa-moon"></i> DARK MODE</p>
                         <p class="text-xs text-indigo-200 font-bold mt-1">Discord-style, cómodo para la noche</p>
                         <p class="text-xs text-indigo-300 mt-2 italic">Para usuarios de noche</p>
                     </button>
 
-                    <!-- TEMA MINIMALISTA MODERNO -->
                     <button onclick="app.cambiarTema('minimalista')" class="w-full bg-gradient-to-r from-pink-50 to-purple-50 hover:from-pink-100 hover:to-purple-100 border-3 border-pink-400 rounded-xl p-4 sm:p-5 transition transform hover:scale-105 text-left shadow-md">
                         <p class="font-black text-lg text-pink-600 uppercase tracking-widest"><i class="fa-solid fa-sparkles"></i> MINIMALISTA MODERNO</p>
                         <p class="text-xs text-pink-600 font-bold mt-1">Limpio, juvenil, con animaciones suaves</p>
                         <p class="text-xs text-pink-500 mt-2 italic">Para gente joven (20+)</p>
                     </button>
 
-                    <!-- TEMA PROFESSIONAL 50+ -->
                     <button onclick="app.cambiarTema('professional')" class="w-full bg-gradient-to-r from-amber-50 to-amber-100 hover:from-amber-100 hover:to-amber-200 border-3 border-amber-700 rounded-xl p-4 sm:p-5 transition transform hover:scale-105 text-left shadow-md">
                         <p class="font-black text-lg text-amber-800 uppercase tracking-widest"><i class="fa-solid fa-book"></i> PROFESSIONAL 50+</p>
                         <p class="text-xs text-amber-700 font-bold mt-1">Tipografía grande, serif, sin animaciones</p>
@@ -959,7 +968,6 @@
                     </button>
                 </div>
 
-                <!-- SELECTOR DE CONTRASTE -->
                 <div class="bg-gray-100 p-4 rounded-xl mb-4">
                     <p class="text-xs font-black text-gray-600 uppercase tracking-wider mb-2">CONTRASTE:</p>
                     <div class="grid grid-cols-3 gap-2">
@@ -969,7 +977,6 @@
                     </div>
                 </div>
 
-                <!-- LIVE PREVIEW -->
                 <div id="vista-previa-tema" class="bg-gray-50 p-4 rounded-xl mb-4 border-2 border-gray-200">
                     <p class="text-xs font-black text-gray-600 uppercase tracking-wider mb-2"><i class="fa-solid fa-eye"></i> Vista Previa:</p>
                     <div class="text-center p-3 bg-white rounded font-bold text-sm">
