@@ -3290,6 +3290,9 @@
             // ==========================================
             // MENÚ DE ACCESO A LOTES
             // ==========================================
+            // ==========================================
+            // MENÚ DE ACCESO A LOTES
+            // ==========================================
             abrirMenuLotes() {
                 SoundFx.click();
                 
@@ -3309,13 +3312,13 @@
 
             actualizarBotonesNav() {
                 const btnLotes = document.getElementById('btn-nav-lotes');
-                if (this.currentUser && (this.currentUser.rol === 'tecnico' || this.currentUser.rol === 'admin' || this.currentUser.rol === 'owner')) {
+                // SOLAMENTE ADMIN Y OWNER VERÁN EL BOTÓN DE LOTES
+                if (this.currentUser && (this.currentUser.rol === 'admin' || this.currentUser.rol === 'owner')) {
                     btnLotes.classList.remove('hidden-view');
                 } else {
                     btnLotes.classList.add('hidden-view');
                 }
             },
-
             // ==========================================
             // SISTEMA DE TEMAS AVANZADO
             // ==========================================
