@@ -269,46 +269,40 @@
 <body class="bg-gray-100 text-slate-800 font-sans min-h-screen flex flex-col antialiased">
 
     <!-- Navbar Global -->
-    <nav class="bg-slate-900 text-white p-3 sm:p-4 shadow-md flex justify-between items-center z-10 sticky top-0">
-        <div class="flex items-center gap-2">
+    <nav class="bg-slate-900 text-white p-2 sm:p-3 shadow-md flex justify-between items-center z-10 sticky top-0 w-full">
+        <div class="flex items-center gap-2 flex-shrink-0">
             <i class="fa-solid fa-laptop-medical text-lg sm:text-xl text-blue-400"></i>
             <h1 class="text-base sm:text-xl font-bold tracking-wide hidden sm:inline">PETULAP</h1>
         </div>
         
-        <div class="flex items-center gap-3 sm:gap-6">
-            <!-- Reloj Digital -->
-            <div class="flex items-center gap-2 bg-slate-800 px-3 sm:px-4 py-2 rounded-lg border border-green-500/30">
-                <i class="fa-solid fa-clock text-green-400 text-sm"></i>
-                <span id="digital-clock" class="text-base sm:text-lg tracking-widest">--:--</span>
+        <div class="flex items-center justify-end gap-2 sm:gap-4 flex-grow min-w-0">
+            <div class="hidden xs:flex items-center gap-1 sm:gap-2 bg-slate-800 px-2 sm:px-3 py-1.5 rounded-lg border border-green-500/30">
+                <i class="fa-solid fa-clock text-green-400 text-xs sm:text-sm"></i>
+                <span id="digital-clock" class="text-xs sm:text-base tracking-widest">--:--</span>
             </div>
             
-            <!-- Botón LOTES (para técnico/admin) -->
-            <button id="btn-nav-lotes" onclick="app.abrirMenuLotes()" class="hidden-view text-orange-400 hover:text-orange-300 transition text-lg p-2 sm:p-0 group relative" title="Gestión de Lotes">
+            <button id="btn-nav-lotes" onclick="app.abrirMenuLotes()" class="hidden-view text-orange-400 hover:text-orange-300 transition text-base sm:text-xl p-1.5 sm:p-0 group relative flex-shrink-0" title="Gestión de Lotes">
                 <i class="fa-solid fa-cube group-hover:scale-110 transition"></i>
-                <div class="hidden group-hover:flex absolute right-0 mt-2 bg-slate-700 text-xs text-white px-2 py-1 rounded whitespace-nowrap shadow-lg">Lotes</div>
+                <div class="hidden group-hover:flex absolute right-0 mt-2 bg-slate-700 text-xs text-white px-2 py-1 rounded whitespace-nowrap shadow-lg z-50">Lotes</div>
             </button>
 
-            <!-- Botón SELECTOR DE TEMAS (Rápido) -->
-            <button id="btn-nav-tema" onclick="document.getElementById('modal-selector-temas').classList.remove('hidden-view'); SoundFx.click();" class="text-purple-400 hover:text-purple-300 transition text-lg p-2 sm:p-0 group relative" title="Cambiar Tema">
+            <button id="btn-nav-tema" onclick="document.getElementById('modal-selector-temas').classList.remove('hidden-view'); SoundFx.click();" class="text-purple-400 hover:text-purple-300 transition text-base sm:text-xl p-1.5 sm:p-0 group relative flex-shrink-0" title="Cambiar Tema">
                 <i class="fa-solid fa-palette group-hover:scale-110 transition"></i>
-                <div class="hidden group-hover:flex absolute right-0 mt-2 bg-slate-700 text-xs text-white px-2 py-1 rounded whitespace-nowrap shadow-lg">Temas</div>
+                <div class="hidden group-hover:flex absolute right-0 mt-2 bg-slate-700 text-xs text-white px-2 py-1 rounded whitespace-nowrap shadow-lg z-50">Temas</div>
             </button>
             
-            <!-- Botón de Configuración -->
-            <button onclick="document.getElementById('modal-settings').classList.remove('hidden-view'); SoundFx.click();" class="text-gray-400 hover:text-white transition text-lg p-2 sm:p-0 group relative" title="Configuración">
+            <button onclick="document.getElementById('modal-settings').classList.remove('hidden-view'); SoundFx.click();" class="text-gray-400 hover:text-white transition text-base sm:text-xl p-1.5 sm:p-0 group relative flex-shrink-0" title="Configuración">
                 <i class="fa-solid fa-sliders-h group-hover:scale-110 transition"></i>
-                <div class="hidden group-hover:flex absolute right-0 mt-2 bg-slate-700 text-xs text-white px-2 py-1 rounded whitespace-nowrap shadow-lg">Configuración</div>
             </button>
             
-            <div id="nav-user-info" class="hidden-view flex items-center gap-2 sm:gap-4">
-                <span id="user-display" class="font-medium text-xs sm:text-base bg-slate-800 px-2 sm:px-3 py-1 rounded-full truncate"></span>
-                <button onclick="app.logout()" class="text-red-400 hover:text-red-300 transition text-lg p-2 sm:p-0" title="Cerrar sesión">
+            <div id="nav-user-info" class="hidden-view flex items-center gap-2 flex-shrink-0 pl-1 border-l border-slate-700">
+                <span id="user-display" class="font-medium text-[10px] sm:text-sm bg-slate-800 px-2 sm:px-3 py-1 rounded-full truncate max-w-[80px] sm:max-w-[150px]"></span>
+                <button onclick="app.logout()" class="text-red-400 hover:text-red-300 transition text-base sm:text-xl p-1 sm:p-0" title="Cerrar sesión">
                     <i class="fa-solid fa-right-from-bracket"></i>
                 </button>
             </div>
         </div>
     </nav>
-
     <div id="toast-container" class="fixed top-16 sm:top-20 left-1/2 transform -translate-x-1/2 z-50 flex flex-col gap-2 w-11/12 max-w-md pointer-events-none"></div>
 
     <main class="flex-grow flex flex-col items-center justify-start p-3 sm:p-6 w-full max-w-6xl mx-auto mt-2 sm:mt-4">
@@ -496,17 +490,34 @@
             </div>
 
             <!-- ACTIVIDADES GENERALES -->
-            <details class="bg-white rounded-2xl sm:rounded-3xl shadow-md border-t-4 border-slate-700 mb-4 sm:mb-6 transition-all duration-300 group" id="accordion-admin-tasks">
-                <summary class="font-black text-slate-800 p-3 sm:p-5 cursor-pointer uppercase flex items-center justify-between outline-none text-sm sm:text-base">
-                    <div class="flex items-center gap-2">
+            <details class="bg-white rounded-2xl sm:rounded-3xl shadow-md border-t-4 border-slate-700 mb-4 sm:mb-6 transition-all duration-300 group" id="accordion-admin-tasks" ontoggle="localStorage.setItem('petulap_admin_tasks_open', this.open)">
+                <!-- El list-none y webkit-details-marker:hidden ocultan la flecha nativa del navegador -->
+                <summary class="font-black text-slate-800 p-3 sm:p-5 cursor-pointer uppercase flex items-center justify-between outline-none text-sm sm:text-base hover:bg-slate-50 rounded-t-2xl sm:rounded-t-3xl transition list-none [&::-webkit-details-marker]:hidden">
+                    <div class="flex items-center gap-2 sm:gap-3">
                         <i class="fa-solid fa-list-check text-slate-500 group-open:text-blue-600 transition-colors"></i> 
                         <span>Actividades Generales</span>
+                        <!-- Esta es la flecha animada corregida -->
+                        <i class="fa-solid fa-chevron-down text-gray-500 group-open:rotate-180 transition-transform duration-300 inline-block"></i>
                     </div>
                     <span class="bg-slate-200 text-slate-700 px-2 sm:px-3 py-0.5 sm:py-1 rounded-full text-xs" id="badge-admin-tasks">0</span>
                 </summary>
-                <div class="px-3 sm:px-5 pb-3 sm:pb-5 space-y-2 sm:space-y-3" id="tec-lista-admin-tasks">
+                
+                <div class="px-3 sm:px-5 pb-3 sm:pb-5">
+                    <div class="space-y-2 sm:space-y-3 mb-4" id="tec-lista-admin-tasks">
+                    </div>
+                    
+                    <button onclick="document.getElementById('accordion-admin-tasks').open = false; SoundFx.click();" class="w-full bg-slate-100 hover:bg-slate-200 text-slate-600 font-bold py-2 sm:py-3 rounded-xl text-xs sm:text-sm transition flex justify-center items-center gap-2 border-2 border-slate-200 active:translate-y-1">
+                        <i class="fa-solid fa-angle-up"></i> CERRAR PANEL
+                    </button>
                 </div>
             </details>
+
+            <!-- Este script chiquito se encarga de leer la memoria al cargar la página -->
+            <script>
+                if(localStorage.getItem('petulap_admin_tasks_open') === 'true') {
+                    document.getElementById('accordion-admin-tasks').open = true;
+                }
+            </script>
 
             <!-- Historial -->
             <div id="tec-historial" class="bg-white rounded-2xl sm:rounded-3xl shadow-md p-4 sm:p-6 border-t-4 border-slate-200">
@@ -628,12 +639,30 @@
             <div id="admin-grid-tecnicos" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 mb-4 sm:mb-6"></div>
 
             <!-- RADAR GLOBAL ADMIN -->
-            <div class="bg-white rounded-2xl sm:rounded-3xl shadow-xl p-4 sm:p-6 border-t-4 border-purple-500 mb-4 sm:mb-6">
-                <div class="flex justify-between items-center mb-3 sm:mb-4 border-b-2 border-gray-100 pb-2">
-                    <h3 class="text-base sm:text-lg font-black text-gray-800 uppercase tracking-widest text-xs"><i class="fa-solid fa-globe text-purple-500 mr-2"></i> Radar Global de Actividades</h3>
+           <details class="bg-white rounded-2xl sm:rounded-3xl shadow-xl border-t-4 border-purple-500 mb-4 sm:mb-6 transition-all duration-300 group" id="accordion-radar-global" ontoggle="localStorage.setItem('petulap_radar_global_open', this.open)">
+                <summary class="font-black text-slate-800 p-4 sm:p-6 cursor-pointer uppercase flex items-center justify-between outline-none text-base sm:text-lg hover:bg-slate-50 rounded-t-2xl sm:rounded-t-3xl transition list-none [&::-webkit-details-marker]:hidden border-b-2 border-gray-100">
+                    <div class="flex items-center gap-2 text-xs sm:text-base">
+                        <i class="fa-solid fa-globe text-purple-500 group-open:text-purple-700 transition-colors"></i> 
+                        <span class="tracking-widest">Radar Global de Actividades</span>
+                    </div>
+                    <i class="fa-solid fa-chevron-down text-gray-400 group-open:rotate-180 transition-transform duration-300 inline-block"></i>
+                </summary>
+                
+                <div class="px-4 sm:px-6 pb-4 sm:px-6 pt-2">
+                    <div id="admin-radar-global" class="space-y-2 sm:space-y-3 max-h-96 overflow-y-auto pr-2 mb-4"></div>
+                    
+                    <button onclick="document.getElementById('accordion-radar-global').open = false; SoundFx.click();" class="w-full bg-slate-100 hover:bg-slate-200 text-slate-600 font-bold py-2 sm:py-3 rounded-xl text-xs sm:text-sm transition flex justify-center items-center gap-2 border-2 border-slate-200 active:translate-y-1">
+                        <i class="fa-solid fa-angle-up"></i> CERRAR PANEL
+                    </button>
                 </div>
-                <div id="admin-radar-global" class="space-y-2 sm:space-y-3 max-h-96 overflow-y-auto pr-2"></div>
-            </div>
+            </details>
+            
+            <script>
+                if(localStorage.getItem('petulap_radar_global_open') === 'true') {
+                    const radarAcc = document.getElementById('accordion-radar-global');
+                    if(radarAcc) radarAcc.open = true;
+                }
+            </script>
 
             <div id="admin-detalles-container" class="space-y-3 sm:space-y-4 mb-6 sm:mb-8"></div>
         </div>
@@ -758,11 +787,15 @@
 
         <!-- MODAL: CONFIGURACIÓN / PERSONALIZACIÓN -->
         <div id="modal-settings" class="fixed inset-0 bg-black/60 z-50 hidden-view flex items-center justify-center p-4">
-            <div class="bg-white rounded-2xl sm:rounded-3xl shadow-2xl p-6 sm:p-8 max-w-md w-full border-t-4 sm:border-t-8 border-purple-600">
+            <div class="bg-white rounded-2xl sm:rounded-3xl shadow-2xl p-6 sm:p-8 max-w-md w-full max-h-[90vh] overflow-y-auto border-t-4 sm:border-t-8 border-purple-600 relative">
+                
+                <button onclick="document.getElementById('modal-settings').classList.add('hidden-view'); SoundFx.click();" class="absolute top-4 right-4 text-gray-400 hover:text-gray-700 transition w-8 h-8 flex items-center justify-center bg-gray-100 rounded-full hover:bg-gray-200">
+                    <i class="fa-solid fa-times text-xl"></i>
+                </button>
+
                 <h3 class="text-xl sm:text-2xl font-black text-purple-600 mb-4 sm:mb-6 pb-2 uppercase tracking-widest"><i class="fa-solid fa-sliders-h"></i> Configuración</h3>
                 
                 <div class="space-y-4 sm:space-y-5">
-                    <!-- Modo Minimalista -->
                     <div class="bg-purple-50 p-4 rounded-xl border-2 border-purple-200">
                         <label class="flex items-center gap-3 cursor-pointer">
                             <input type="checkbox" id="toggle-minimalist" onchange="app.toggleMinimalistMode()" class="w-5 h-5 text-purple-600 rounded focus:ring-purple-500">
@@ -773,7 +806,6 @@
                         </label>
                     </div>
                     
-                    <!-- Fondo de Pantalla -->
                     <div>
                         <label class="block text-xs font-black text-gray-500 mb-2 uppercase tracking-wider"><i class="fa-solid fa-image"></i> Fondo de Pantalla:</label>
                         <div class="grid grid-cols-2 gap-2">
@@ -789,13 +821,17 @@
                             <button onclick="app.cambiarFondo('blue')" class="bg-blue-500 text-white border-2 border-blue-700 p-3 rounded-lg font-black text-xs uppercase tracking-widest transition">
                                 <i class="fa-solid fa-fill-drip mb-1"></i><br>Azul
                             </button>
-                            <button onclick="app.cambiarFondo('purple')" class="bg-purple-600 text-white border-2 border-purple-800 p-3 rounded-lg font-black text-xs uppercase tracking-widest transition col-span-2">
-                                <i class="fa-solid fa-fill-drip mb-1"></i> Morado
+                            <button onclick="app.cambiarFondo('purple')" class="bg-purple-600 text-white border-2 border-purple-800 p-3 rounded-lg font-black text-xs uppercase tracking-widest transition">
+                                <i class="fa-solid fa-fill-drip mb-1"></i><br>Morado
                             </button>
+                            
+                            <button onclick="document.getElementById('bg-image-upload').click()" class="bg-indigo-100 hover:bg-indigo-200 text-indigo-700 border-2 border-indigo-300 hover:border-indigo-500 p-3 rounded-lg font-black text-xs uppercase tracking-widest transition col-span-2 flex justify-center items-center gap-2">
+                                <i class="fa-solid fa-upload"></i> Subir Imagen
+                            </button>
+                            <input type="file" id="bg-image-upload" accept="image/*" class="hidden" onchange="app.subirFondoImagen(event)">
                         </div>
                     </div>
                     
-                    <!-- Volumen de Audio -->
                     <div>
                         <label class="block text-xs font-black text-gray-500 mb-2 uppercase tracking-wider"><i class="fa-solid fa-volume-high"></i> Volumen de Audio:</label>
                         <div class="flex items-center gap-3">
@@ -806,7 +842,7 @@
                 </div>
                 
                 <div class="mt-6 sm:mt-8">
-                    <button onclick="document.getElementById('modal-settings').classList.add('hidden-view'); SoundFx.click();" class="w-full bg-purple-600 hover:bg-purple-700 text-white font-black py-3 sm:py-4 rounded-lg sm:rounded-xl transition uppercase tracking-widest text-xs sm:text-base border-b-4 border-purple-800 active:border-b-0 active:translate-y-1">Cerrar</button>
+                    <button onclick="document.getElementById('modal-settings').classList.add('hidden-view'); SoundFx.click();" class="w-full bg-purple-600 hover:bg-purple-700 text-white font-black py-3 sm:py-4 rounded-lg sm:rounded-xl transition uppercase tracking-widest text-xs sm:text-base border-b-4 border-purple-800 active:border-b-0 active:translate-y-1">Cerrar Abajo</button>
                 </div>
             </div>
         </div>
@@ -925,33 +961,34 @@
         </div>
 
         <!-- ============================================ MODAL: SELECTOR DE TEMAS ============================================ -->
-        <div id="modal-selector-temas" class="fixed inset-0 bg-black/70 z-50 hidden-view flex items-center justify-center p-4">
-            <div class="bg-white rounded-3xl shadow-2xl p-6 sm:p-8 max-w-lg w-full">
-                <h3 class="text-2xl sm:text-3xl font-black text-purple-600 mb-6 uppercase tracking-widest"><i class="fa-solid fa-palette"></i> Selecciona tu Tema</h3>
+     <div id="modal-selector-temas" class="fixed inset-0 bg-black/70 z-50 hidden-view flex items-center justify-center p-4">
+            <div class="bg-white rounded-3xl shadow-2xl p-6 sm:p-8 max-w-lg w-full max-h-[90vh] overflow-y-auto relative">
+                
+                <button onclick="document.getElementById('modal-selector-temas').classList.add('hidden-view'); SoundFx.click();" class="absolute top-4 right-4 text-gray-400 hover:text-gray-700 transition w-8 h-8 flex items-center justify-center bg-gray-100 rounded-full hover:bg-gray-200 z-10">
+                    <i class="fa-solid fa-times text-xl"></i>
+                </button>
+
+                <h3 class="text-2xl sm:text-3xl font-black text-purple-600 mb-6 pr-6 uppercase tracking-widest"><i class="fa-solid fa-palette"></i> Selecciona tu Tema</h3>
                 
                 <div class="space-y-3 mb-6">
-                    <!-- TEMA NORMAL -->
                     <button onclick="app.cambiarTema('normal')" class="w-full bg-gradient-to-r from-blue-50 to-slate-50 hover:from-blue-100 hover:to-slate-100 border-3 border-blue-400 rounded-xl p-4 sm:p-5 transition transform hover:scale-105 text-left shadow-md">
                         <p class="font-black text-lg text-blue-700 uppercase tracking-widest"><i class="fa-solid fa-sun"></i> NORMAL</p>
                         <p class="text-xs text-blue-600 font-bold mt-1">Interfaz estándar, colores vivos y animaciones</p>
                         <p class="text-xs text-blue-500 mt-2 italic">Para todos - diseño balance</p>
                     </button>
 
-                    <!-- TEMA DARK MODE -->
                     <button onclick="app.cambiarTema('dark')" class="w-full bg-gradient-to-r from-slate-800 to-slate-900 hover:from-slate-700 hover:to-slate-800 border-3 border-indigo-500 rounded-xl p-4 sm:p-5 transition transform hover:scale-105 text-left shadow-md">
                         <p class="font-black text-lg text-indigo-300 uppercase tracking-widest"><i class="fa-solid fa-moon"></i> DARK MODE</p>
                         <p class="text-xs text-indigo-200 font-bold mt-1">Discord-style, cómodo para la noche</p>
                         <p class="text-xs text-indigo-300 mt-2 italic">Para usuarios de noche</p>
                     </button>
 
-                    <!-- TEMA MINIMALISTA MODERNO -->
                     <button onclick="app.cambiarTema('minimalista')" class="w-full bg-gradient-to-r from-pink-50 to-purple-50 hover:from-pink-100 hover:to-purple-100 border-3 border-pink-400 rounded-xl p-4 sm:p-5 transition transform hover:scale-105 text-left shadow-md">
                         <p class="font-black text-lg text-pink-600 uppercase tracking-widest"><i class="fa-solid fa-sparkles"></i> MINIMALISTA MODERNO</p>
                         <p class="text-xs text-pink-600 font-bold mt-1">Limpio, juvenil, con animaciones suaves</p>
                         <p class="text-xs text-pink-500 mt-2 italic">Para gente joven (20+)</p>
                     </button>
 
-                    <!-- TEMA PROFESSIONAL 50+ -->
                     <button onclick="app.cambiarTema('professional')" class="w-full bg-gradient-to-r from-amber-50 to-amber-100 hover:from-amber-100 hover:to-amber-200 border-3 border-amber-700 rounded-xl p-4 sm:p-5 transition transform hover:scale-105 text-left shadow-md">
                         <p class="font-black text-lg text-amber-800 uppercase tracking-widest"><i class="fa-solid fa-book"></i> PROFESSIONAL 50+</p>
                         <p class="text-xs text-amber-700 font-bold mt-1">Tipografía grande, serif, sin animaciones</p>
@@ -959,7 +996,6 @@
                     </button>
                 </div>
 
-                <!-- SELECTOR DE CONTRASTE -->
                 <div class="bg-gray-100 p-4 rounded-xl mb-4">
                     <p class="text-xs font-black text-gray-600 uppercase tracking-wider mb-2">CONTRASTE:</p>
                     <div class="grid grid-cols-3 gap-2">
@@ -969,7 +1005,6 @@
                     </div>
                 </div>
 
-                <!-- LIVE PREVIEW -->
                 <div id="vista-previa-tema" class="bg-gray-50 p-4 rounded-xl mb-4 border-2 border-gray-200">
                     <p class="text-xs font-black text-gray-600 uppercase tracking-wider mb-2"><i class="fa-solid fa-eye"></i> Vista Previa:</p>
                     <div class="text-center p-3 bg-white rounded font-bold text-sm">
@@ -2016,15 +2051,20 @@
 
                 const grid = document.getElementById('admin-grid-tecnicos');
                 const detalles = document.getElementById('admin-detalles-container');
-                grid.innerHTML = '<div class="col-span-full text-center py-6 sm:py-8"><i class="fa-solid fa-circle-notch fa-spin text-blue-500 text-3xl sm:text-4xl"></i></div>';
-                detalles.innerHTML = ''; 
+                
+                // Si la grilla está vacía (primera carga), mostramos el spinner.
+                const esCargaInicial = grid.childElementCount === 0;
+                if (esCargaInicial) {
+                    grid.innerHTML = '<div class="col-span-full text-center py-6 sm:py-8"><i class="fa-solid fa-circle-notch fa-spin text-blue-500 text-3xl sm:text-4xl"></i></div>';
+                }
 
                 try {
                     const { data, error } = await supabaseClient.from('registros_petulap')
                         .select('*').gte('fecha_hora', startOfDay).lte('fecha_hora', endOfDay).order('fecha_hora', { ascending: false });
 
                     if (error) throw error;
-                    grid.innerHTML = '';
+                    
+                    if (esCargaInicial) grid.innerHTML = ''; // Solo limpiamos si estaba el spinner
                     
                     TECNICOS.forEach(tecnico => {
                         const registrosTec = data.filter(r => r.tecnico === tecnico);
@@ -2066,9 +2106,11 @@
                             }
                         }
 
-                        const card = document.createElement('div');
-                        card.className = `border-2 rounded-lg sm:rounded-3xl p-3 sm:p-5 shadow-lg transition transform hover:-translate-y-1 ${estadoVisual.color} flex flex-col`;
-                        card.innerHTML = `
+                        // ID seguro sin espacios
+                        const safeTecnicoID = tecnico.replace(/\s+/g, '-');
+                        let card = document.getElementById(`card-tec-${safeTecnicoID}`);
+                        
+                        const cardInnerHTML = `
                             <div class="flex justify-between items-center mb-2 sm:mb-3 gap-1">
                                 <h3 class="font-black text-xs sm:text-lg text-gray-800 uppercase tracking-widest"><i class="fa-solid fa-user-circle mr-1 text-blue-600 text-sm sm:text-base"></i>${tecnico}</h3>
                                 <span class="px-1.5 sm:px-2 py-0.5 sm:py-1 rounded text-[9px] sm:text-[10px] font-black uppercase ${estadoVisual.text} tracking-widest shadow-sm flex-shrink-0"><i class="fa-solid ${estadoVisual.icon} mr-0.5 text-[8px]"></i> ${estadoVisual.label}</span>
@@ -2080,21 +2122,40 @@
                                 ${adminActions || ''}
                             </div>
                             <button onclick="app.toggleDetallesAdmin('${tecnico}')" class="w-full bg-slate-800 hover:bg-slate-900 text-white text-xs sm:text-sm font-black py-2 sm:py-3 rounded-lg sm:rounded-xl border-b-2 sm:border-b-4 border-black active:border-b-0 active:translate-y-1 transition shadow-lg uppercase tracking-widest">Bitácora <i class="fa-solid fa-caret-down ml-1"></i></button>`;
-                        grid.appendChild(card);
+                            
+                        // ACTUALIZACIÓN EN CALIENTE
+                        if (!card) {
+                            card = document.createElement('div');
+                            card.id = `card-tec-${safeTecnicoID}`;
+                            card.className = `border-2 rounded-lg sm:rounded-3xl p-3 sm:p-5 shadow-lg transition transform hover:-translate-y-1 ${estadoVisual.color} flex flex-col`;
+                            card.innerHTML = cardInnerHTML;
+                            grid.appendChild(card);
+                        } else {
+                            card.className = `border-2 rounded-lg sm:rounded-3xl p-3 sm:p-5 shadow-lg transition transform hover:-translate-y-1 ${estadoVisual.color} flex flex-col`;
+                            card.innerHTML = cardInnerHTML;
+                        }
+
                         this.construirTablaDetalles(tecnico, trueHistory, detalles);
                     });
 
                     this.cargarRadarAdmin();
                 } catch (e) { 
                     console.error("Error en Dashboard Admin:", e);
-                    grid.innerHTML = `<div class="col-span-full text-center text-red-500 py-6 sm:py-8 font-bold text-xs"><i class="fa-solid fa-bug text-2xl sm:text-3xl mb-2"></i><br>Error: ${e.message || 'Fallo de BD'}</div>`; 
+                    if (esCargaInicial) grid.innerHTML = `<div class="col-span-full text-center text-red-500 py-6 sm:py-8 font-bold text-xs"><i class="fa-solid fa-bug text-2xl sm:text-3xl mb-2"></i><br>Error: ${e.message || 'Fallo de BD'}</div>`; 
                 }
             },
-
             construirTablaDetalles: function(tecnico, registros, container) {
-                const wrapper = document.createElement('div');
-                wrapper.id = `admin-tabla-${tecnico}`;
-                wrapper.className = 'hidden-view bg-white rounded-2xl sm:rounded-3xl shadow-xl p-4 sm:p-6 border-l-4 sm:border-l-8 border-blue-600 mb-3 sm:mb-4';
+                const safeTecnico = tecnico.replace(/\s+/g, '-');
+                let wrapper = document.getElementById(`admin-tabla-${safeTecnico}`);
+                let isNew = false;
+                
+                if (!wrapper) {
+                    wrapper = document.createElement('div');
+                    wrapper.id = `admin-tabla-${safeTecnico}`;
+                    // Al crearlo por primera vez, viene oculto (hidden-view)
+                    wrapper.className = 'hidden-view bg-white rounded-2xl sm:rounded-3xl shadow-xl p-4 sm:p-6 border-l-4 sm:border-l-8 border-blue-600 mb-3 sm:mb-4';
+                    isNew = true;
+                }
                 
                 const chronRegistros = [...registros].reverse(); 
                 const sesiones = []; let sesionActual = null;
@@ -2151,15 +2212,31 @@
                     <div class="overflow-x-auto rounded-lg sm:rounded-xl border-2 border-gray-200"><table class="w-full text-left border-collapse text-[9px] sm:text-base"><thead>
                         <tr class="bg-slate-800 text-white uppercase tracking-widest text-[8px] sm:text-xs"><th class="p-2 sm:p-4 rounded-tl text-center">Horario</th><th class="p-2 sm:p-4">Actividad</th><th class="p-2 sm:p-4">Eventos</th><th class="p-2 sm:p-4 text-center">Resultados</th></tr>
                     </thead><tbody class="divide-y divide-gray-200 bg-white">${tbodyHtml}</tbody></table></div>`;
-                container.appendChild(wrapper);
+                
+                if (isNew) {
+                    container.appendChild(wrapper);
+                }
             },
-
             toggleDetallesAdmin: function(tecnico) {
-                TECNICOS.forEach(t => { if (t !== tecnico) { const el = document.getElementById(`admin-tabla-${t}`); if(el) el.classList.add('hidden-view'); } });
-                const tabla = document.getElementById(`admin-tabla-${tecnico}`);
+                const safeTarget = tecnico.replace(/\s+/g, '-');
+                TECNICOS.forEach(t => { 
+                    const safeT = t.replace(/\s+/g, '-');
+                    if (safeT !== safeTarget) { 
+                        const el = document.getElementById(`admin-tabla-${safeT}`); 
+                        if(el) el.classList.add('hidden-view'); 
+                    } 
+                });
+                const tabla = document.getElementById(`admin-tabla-${safeTarget}`);
                 if (tabla) {
-                    if (tabla.classList.contains('hidden-view')) { tabla.classList.remove('hidden-view'); tabla.classList.add('slide-down'); setTimeout(() => tabla.scrollIntoView({ behavior: 'smooth', block: 'start' }), 100); } 
-                    else { tabla.classList.add('hidden-view'); tabla.classList.remove('slide-down'); }
+                    if (tabla.classList.contains('hidden-view')) { 
+                        tabla.classList.remove('hidden-view'); 
+                        tabla.classList.add('slide-down'); 
+                        setTimeout(() => tabla.scrollIntoView({ behavior: 'smooth', block: 'start' }), 100); 
+                    } 
+                    else { 
+                        tabla.classList.add('hidden-view'); 
+                        tabla.classList.remove('slide-down'); 
+                    }
                 }
             },
 
@@ -2470,6 +2547,9 @@
             // ==========================================
             // PERSONALIZACIÓN
             // ==========================================
+           // ==========================================
+            // PERSONALIZACIÓN
+            // ==========================================
             toggleMinimalistMode: function() {
                 const toggle = document.getElementById('toggle-minimalist');
                 if (toggle.checked) {
@@ -2485,7 +2565,45 @@
                 }
             },
 
+            // 1. NUEVA FUNCIÓN: Procesa y guarda la imagen en base64
+            subirFondoImagen: function(event) {
+                const file = event.target.files[0];
+                if (!file) return;
+                
+                // Evitar imágenes muy pesadas (máx 2MB para LocalStorage)
+                if(file.size > 2 * 1024 * 1024) {
+                    return this.toast('La imagen es muy pesada (Max 2MB)', 'error');
+                }
+
+                const reader = new FileReader();
+                reader.onload = (e) => {
+                    const base64Str = e.target.result;
+                    
+                    // Limpiar fondos de Tailwind
+                    document.body.className = document.body.className.replace(/bg-(normal|pattern-dots|pattern-grid|gradient-blue|gradient-purple)/g, '');
+                    localStorage.removeItem('petulap_background');
+                    
+                    // Aplicar imagen de fondo
+                    document.body.style.backgroundImage = `url(${base64Str})`;
+                    document.body.style.backgroundSize = 'cover';
+                    document.body.style.backgroundPosition = 'center';
+                    document.body.style.backgroundAttachment = 'fixed';
+                    
+                    // Guardar
+                    localStorage.setItem('petulap_bg_image', base64Str);
+                    
+                    SoundFx.finish();
+                    this.toast('Fondo de imagen guardado', 'success');
+                };
+                reader.readAsDataURL(file);
+            },
+
+            // 2. MODIFICADA: Si elige un color normal, limpiar la imagen
             cambiarFondo: function(tipo) {
+                // Quitar la imagen si existía
+                document.body.style.backgroundImage = '';
+                localStorage.removeItem('petulap_bg_image');
+
                 document.body.className = document.body.className.replace(/bg-(normal|pattern-dots|pattern-grid|gradient-blue|gradient-purple)/g, '');
                 
                 if (tipo === 'normal') {
@@ -2515,6 +2633,7 @@
                 SoundFx.click();
             },
 
+            // 3. MODIFICADA: Cargar imagen al iniciar sesión / refrescar
             cargarPersonalizacion: function() {
                 const minimalist = localStorage.getItem('petulap_minimalist');
                 if (minimalist === 'true') {
@@ -2523,12 +2642,22 @@
                     if (toggle) toggle.checked = true;
                 }
                 
-                const background = localStorage.getItem('petulap_background');
-                if (background && background !== 'normal') {
-                    if (background === 'dots') document.body.classList.add('bg-pattern-dots');
-                    else if (background === 'grid') document.body.classList.add('bg-pattern-grid');
-                    else if (background === 'blue') document.body.classList.add('bg-gradient-blue');
-                    else if (background === 'purple') document.body.classList.add('bg-gradient-purple');
+                // Prioridad 1: Imagen personalizada
+                const customBgImage = localStorage.getItem('petulap_bg_image');
+                if (customBgImage) {
+                    document.body.style.backgroundImage = `url(${customBgImage})`;
+                    document.body.style.backgroundSize = 'cover';
+                    document.body.style.backgroundPosition = 'center';
+                    document.body.style.backgroundAttachment = 'fixed';
+                } else {
+                    // Prioridad 2: Fondos CSS predefinidos
+                    const background = localStorage.getItem('petulap_background');
+                    if (background && background !== 'normal') {
+                        if (background === 'dots') document.body.classList.add('bg-pattern-dots');
+                        else if (background === 'grid') document.body.classList.add('bg-pattern-grid');
+                        else if (background === 'blue') document.body.classList.add('bg-gradient-blue');
+                        else if (background === 'purple') document.body.classList.add('bg-gradient-purple');
+                    }
                 }
                 
                 const audioVolume = localStorage.getItem('petulap_audio_volume');
@@ -2541,7 +2670,6 @@
                     }
                 }
 
-                // Cargar tema guardado
                 this.cargarTemaGuardado();
             },
 
@@ -3162,6 +3290,9 @@
             // ==========================================
             // MENÚ DE ACCESO A LOTES
             // ==========================================
+            // ==========================================
+            // MENÚ DE ACCESO A LOTES
+            // ==========================================
             abrirMenuLotes() {
                 SoundFx.click();
                 
@@ -3181,13 +3312,13 @@
 
             actualizarBotonesNav() {
                 const btnLotes = document.getElementById('btn-nav-lotes');
-                if (this.currentUser && (this.currentUser.rol === 'tecnico' || this.currentUser.rol === 'admin' || this.currentUser.rol === 'owner')) {
+                // SOLAMENTE ADMIN Y OWNER VERÁN EL BOTÓN DE LOTES
+                if (this.currentUser && (this.currentUser.rol === 'admin' || this.currentUser.rol === 'owner')) {
                     btnLotes.classList.remove('hidden-view');
                 } else {
                     btnLotes.classList.add('hidden-view');
                 }
             },
-
             // ==========================================
             // SISTEMA DE TEMAS AVANZADO
             // ==========================================
